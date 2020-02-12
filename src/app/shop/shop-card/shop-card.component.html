@@ -15,8 +15,13 @@
                 <app-step-paint *ngSwitchCase="3"></app-step-paint>
             </div>
         </div>
-        <footer class="card-footer">
-            <a href="#" class="card-footer-item" (click)="onClickNextStepHandle()">Next</a>
-        </footer>
     </div>
+    <footer class="card-footer">
+        <a *ngIf="!(stepSelected === 1)" href="#" class="card-footer-item" (click)="onClickPreviousStepHandle()">
+            Back
+        </a>
+        <a *ngIf="!(stepSelected === stepTotal)" href="#" class="card-footer-item" (click)="onClickNextStepHandle()">
+            Next
+        </a>
+    </footer>
 </div>

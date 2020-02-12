@@ -13,12 +13,14 @@ export class ShopCardComponent implements OnInit {
     public ngOnInit(): void {}
 
     public onClickNextStepHandle(): void {
-        this.stepSelected = this.getNextStep();
+        if (this.stepSelected === this.stepTotal) return;
+
+        this.stepSelected = ++this.stepSelected;
     }
 
-    private getNextStep(): number {
-        if (this.stepSelected === this.stepTotal) return 1;
+    public onClickPreviousStepHandle(): void {
+        if (this.stepSelected === 1) return;
 
-        return ++this.stepSelected;
+        this.stepSelected = --this.stepSelected;
     }
 }
