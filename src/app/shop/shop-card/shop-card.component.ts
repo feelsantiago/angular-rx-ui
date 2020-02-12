@@ -10,17 +10,21 @@ export class ShopCardComponent implements OnInit {
 
     public stepTotal = 3;
 
+    public steps = [false, false, false];
+
     public ngOnInit(): void {}
 
     public onClickNextStepHandle(): void {
         if (this.stepSelected === this.stepTotal) return;
 
+        this.steps[this.stepSelected - 1] = true;
         this.stepSelected = ++this.stepSelected;
     }
 
     public onClickPreviousStepHandle(): void {
         if (this.stepSelected === 1) return;
 
+        this.steps[this.stepSelected - 2] = false;
         this.stepSelected = --this.stepSelected;
     }
 }
