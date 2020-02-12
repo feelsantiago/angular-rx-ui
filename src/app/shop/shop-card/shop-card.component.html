@@ -1,0 +1,22 @@
+<div class="card">
+    <header class="card-header">
+        <p class="card-header-title">Select Your Guitar Parts</p>
+    </header>
+    <div class="card-content">
+        <div class="content">
+            <div class="steps">
+                <div class="step">1</div>
+                <div class="step">2</div>
+                <div class="step">3</div>
+            </div>
+            <div [ngSwitch]="stepSelected">
+                <app-step-wood *ngSwitchCase="1"></app-step-wood>
+                <app-step-gear *ngSwitchCase="2"></app-step-gear>
+                <app-step-paint *ngSwitchCase="3"></app-step-paint>
+            </div>
+        </div>
+        <footer class="card-footer">
+            <a href="#" class="card-footer-item" (click)="onClickNextStepHandle()">Next</a>
+        </footer>
+    </div>
+</div>

@@ -1,3 +1,11 @@
 #shop {
     display: flex;
+    justify-content: space-between;
+
+    margin: 10px;
+}
+
+.left-content {
+    flex: 1;
+    margin-right: 10px;
 }
