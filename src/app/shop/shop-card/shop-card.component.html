@@ -5,11 +5,12 @@
     <div class="card-content">
         <div class="content">
             <div class="steps">
-                <div class="step" [ngClass]="{ success: steps[0] }">1</div>
-                <div class="step" [ngClass]="{ success: steps[1] }">2</div>
-                <div class="step" [ngClass]="{ success: steps[2] }">3</div>
+                <div *ngFor="let step of steps; let i = index" class="step" [ngClass]="{ success: steps[i] }">
+                    {{ i + 1 }}
+                </div>
             </div>
             <div [ngSwitch]="stepSelected">
+                <app-step-client *ngSwitchCase="0"></app-step-client>
                 <app-step-wood *ngSwitchCase="1"></app-step-wood>
                 <app-step-gear *ngSwitchCase="2"></app-step-gear>
                 <app-step-paint *ngSwitchCase="3"></app-step-paint>
@@ -17,7 +18,7 @@
         </div>
     </div>
     <footer class="card-footer">
-        <a *ngIf="!(stepSelected === 1)" href="#" class="card-footer-item" (click)="onClickPreviousStepHandle()">
+        <a *ngIf="!(stepSelected === 0)" href="#" class="card-footer-item" (click)="onClickPreviousStepHandle()">
             Back
         </a>
         <a *ngIf="!(stepSelected === stepTotal)" href="#" class="card-footer-item" (click)="onClickNextStepHandle()">

@@ -6,25 +6,25 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['shop-card.component.scss'],
 })
 export class ShopCardComponent implements OnInit {
-    public stepSelected = 1;
+    public stepSelected = 0;
 
-    public stepTotal = 3;
+    public steps = [false, false, false, false];
 
-    public steps = [false, false, false];
+    public stepTotal = this.steps.length - 1;
 
     public ngOnInit(): void {}
 
     public onClickNextStepHandle(): void {
         if (this.stepSelected === this.stepTotal) return;
 
-        this.steps[this.stepSelected - 1] = true;
+        this.steps[this.stepSelected] = true;
         this.stepSelected = ++this.stepSelected;
     }
 
     public onClickPreviousStepHandle(): void {
-        if (this.stepSelected === 1) return;
+        if (this.stepSelected === 0) return;
 
-        this.steps[this.stepSelected - 2] = false;
+        this.steps[this.stepSelected - 1] = false;
         this.stepSelected = --this.stepSelected;
     }
 }
