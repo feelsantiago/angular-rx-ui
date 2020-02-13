@@ -1,0 +1,21 @@
+h4 {
+    text-align: center;
+    margin: 10px;
+}
+
+form {
+    display: flex;
+    justify-content: space-between;
+
+    & > div {
+        flex: 1;
+    }
+
+    .field {
+        margin: 0 5px;
+    }
+
+    .control {
+        width: 100% !important;
+    }
+}

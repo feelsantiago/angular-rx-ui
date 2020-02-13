@@ -1,1 +1,24 @@
-<h1>step client</h1>
+<div class="content">
+    <h4>Client Information</h4>
+    <form [formGroup]="clientForm">
+        <div class="field">
+            <label class="label">Name</label>
+            <div class="control">
+                <input formControlName="name" class="input" type="text" placeholder="Name" />
+                <p *ngIf="clientForm.controls.name.hasError('required')" class="help is-danger">
+                    The name is required
+                </p>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Email</label>
+            <div class="control">
+                <input formControlName="email" class="input" type="email" placeholder="email" />
+                <p *ngIf="clientForm.controls.email.hasError('email')" class="help is-danger">This email is invalid</p>
+                <p *ngIf="clientForm.controls.email.hasError('required')" class="help is-danger">
+                    The email is required
+                </p>
+            </div>
+        </div>
+    </form>
+</div>

@@ -55,6 +55,12 @@ module.exports = {
                 "typedefs": true
             }
         ],
+        "@typescript-eslint/unbound-method": [
+            "error",
+            {
+              "ignoreStatic": true
+            }
+        ],
         "import/prefer-default-export": "off",
         "import/no-extraneous-dependencies": [
             "error",

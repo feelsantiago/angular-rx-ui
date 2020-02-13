@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ShopUiService } from '../services/shop-ui.service';
 
 @Component({
     selector: 'app-shop-card',
@@ -12,7 +13,11 @@ export class ShopCardComponent implements OnInit {
 
     public stepTotal = this.steps.length - 1;
 
-    public ngOnInit(): void {}
+    constructor(private readonly shopUiService: ShopUiService) {}
+
+    public ngOnInit(): void {
+        this.shopUiService.UiEventChange.subscribe(console.log);
+    }
 
     public onClickNextStepHandle(): void {
         if (this.stepSelected === this.stepTotal) return;
