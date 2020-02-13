@@ -5,14 +5,14 @@ import { Invoice } from '../model/invoice.model';
 
 @Injectable({ providedIn: 'root' })
 export class InvoiceStateService {
-    private state: BehaviorSubject<Invoice>;
+    private state: BehaviorSubject<Partial<Invoice>>;
 
     constructor() {
         const a = new Invoice();
         this.state = new BehaviorSubject(a);
     }
 
-    public getState(): Observable<Invoice> {
+    public getState(): Observable<Partial<Invoice>> {
         return this.state.pipe(scan((acc, next) => ({ ...acc, ...next })));
     }
 
@@ -20,7 +20,7 @@ export class InvoiceStateService {
         return this.state.pipe(map((invoice) => invoice[property]));
     }
 
-    public updateState(invoice: Invoice): void {
+    public updateState(invoice: Partial<Invoice>): void {
         this.state.next(invoice);
     }
 }

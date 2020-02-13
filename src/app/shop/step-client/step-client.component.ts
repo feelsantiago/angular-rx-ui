@@ -21,8 +21,6 @@ export class StepClientComponent implements OnInit, OnDestroy {
 
     public subscriptions = new SubSink();
 
-    private model: FormModel = { name: '', email: '' };
-
     constructor(
         private readonly shopUiService: ShopUiService,
         private readonly invoiceState: InvoiceStateService,
@@ -41,12 +39,12 @@ export class StepClientComponent implements OnInit, OnDestroy {
 
         this.subscriptions.sink = this.invoiceState.getState().subscribe((state) => {
             const { name, email } = state;
-            this.model = { name, email };
+            this.clientForm.setValue({ name, email });
         });
 
         this.subscriptions.sink = this.formService
             .getOnFormValidEvent<FormModel>(this.clientForm)
-            .subscribe(console.log);
+            .subscribe((values) => this.invoiceState.updateState(values));
     }
 
     public ngOnDestroy(): void {
@@ -55,8 +53,8 @@ export class StepClientComponent implements OnInit, OnDestroy {
 
     private setupForm(): FormGroup {
         return this.fb.group({
-            name: [this.model.name, Validators.required],
-            email: [this.model.email, [Validators.required, Validators.email]],
+            name: ['', Validators.required],
+            email: ['', [Validators.required, Validators.email]],
         });
     }
 }
