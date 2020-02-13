@@ -11,3 +11,8 @@ html {
 * {
     box-sizing: border-box;
 }
+
+a.disabled {
+    color: gray;
+    cursor: not-allowed;
+}

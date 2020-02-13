@@ -34,6 +34,8 @@
         </div>
     </div>
     <footer class="card-footer">
-        <a href="#" class="card-footer-item">Checkout</a>
+        <a [attr.href]="disableButton ? null : '#'" [class.disabled]="disableButton" href="#" class="card-footer-item"
+            >Checkout</a
+        >
     </footer>
 </div>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ShopUiService } from '../shop/services/shop-ui.service';
 
 @Component({
     selector: 'app-cart',
@@ -6,5 +7,13 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['cart.component.scss'],
 })
 export class CartComponent implements OnInit {
-    public ngOnInit(): void {}
+    public disableButton: boolean;
+
+    constructor(private readonly shopUiService: ShopUiService) {}
+
+    public ngOnInit(): void {
+        this.shopUiService.UiEventChange.subscribe((value) => {
+            this.disableButton = !value;
+        });
+    }
 }
