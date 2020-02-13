@@ -1,10 +1,15 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Type } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { map, startWith, filter } from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
 import { SubSink } from 'subsink';
-import { combineLatest } from 'rxjs';
+import { FormService } from '../../services/form.service';
 import { InvoiceStateService } from '../../services/invoice-state.service';
 import { ShopUiService } from '../services/shop-ui.service';
+
+interface FormModel {
+    name: string;
+    email: string;
+}
 
 @Component({
     selector: 'app-step-client',
@@ -16,14 +21,12 @@ export class StepClientComponent implements OnInit, OnDestroy {
 
     public subscriptions = new SubSink();
 
-    private model: {
-        name: string;
-        email: string;
-    } = { name: '', email: '' };
+    private model: FormModel = { name: '', email: '' };
 
     constructor(
         private readonly shopUiService: ShopUiService,
         private readonly invoiceState: InvoiceStateService,
+        private readonly formService: FormService,
         private readonly fb: FormBuilder,
     ) {}
 
@@ -41,10 +44,9 @@ export class StepClientComponent implements OnInit, OnDestroy {
             this.model = { name, email };
         });
 
-        const validFormObservable = this.clientForm.statusChanges.pipe(filter((value) => value === 'VALID'));
-        const submitFormObservable = combineLatest(validFormObservable, this.clientForm.valueChanges);
-
-        this.subscriptions.sink = submitFormObservable.subscribe(console.log);
+        this.subscriptions.sink = this.formService
+            .getOnFormValidEvent<FormModel>(this.clientForm)
+            .subscribe(console.log);
     }
 
     public ngOnDestroy(): void {
