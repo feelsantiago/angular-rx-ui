@@ -27,15 +27,20 @@
                 </li>
             </ul>
             <hr />
-            <div class="list-item">
+            <div *ngIf="busy" class="loading">
+                <span class="icon has-text-info">
+                    <i class="fas fa-spinner"></i>
+                </span>
+            </div>
+            <div *ngIf="!busy" class="list-item">
                 <h5 class="is-size-5 is-marginless">Total</h5>
                 <h5 class="is-size-5 is-marginless">$35.00</h5>
             </div>
         </div>
     </div>
     <footer class="card-footer">
-        <a [attr.href]="disableButton ? null : '#'" [class.disabled]="disableButton" href="#" class="card-footer-item"
-            >Checkout</a
-        >
+        <a href="#" class="card-footer-item">
+            Checkout
+        </a>
     </footer>
 </div>

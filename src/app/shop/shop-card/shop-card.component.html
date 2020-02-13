@@ -21,7 +21,13 @@
         <a *ngIf="!(stepSelected === 0)" href="#" class="card-footer-item" (click)="onClickPreviousStepHandle()">
             Back
         </a>
-        <a *ngIf="!(stepSelected === stepTotal)" href="#" class="card-footer-item" (click)="onClickNextStepHandle()">
+        <a
+            [class.disabled]="disableButton"
+            *ngIf="!(stepSelected === stepTotal)"
+            [attr.href]="disableButton ? null : '#'"
+            class="card-footer-item"
+            (click)="disableButton ? null : onClickNextStepHandle()"
+        >
             Next
         </a>
     </footer>

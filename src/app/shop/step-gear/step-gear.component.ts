@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ShopClient } from '../client/shop.client';
 
 @Component({
     selector: 'app-step-gear',
@@ -6,5 +7,9 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['step-gear.component.scss'],
 })
 export class StepGearComponent implements OnInit {
-    public ngOnInit(): void {}
+    constructor(private readonly shopClient: ShopClient) {}
+
+    public ngOnInit(): void {
+        this.shopClient.getWoodTypes().subscribe(console.log);
+    }
 }

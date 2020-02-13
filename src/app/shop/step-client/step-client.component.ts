@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { map } from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
 import { ShopUiService } from '../services/shop-ui.service';
 
 @Component({
@@ -15,7 +15,12 @@ export class StepClientComponent implements OnInit {
 
     public ngOnInit(): void {
         this.clientForm = this.setupForm();
-        this.shopUiService.addCommand(this.clientForm.statusChanges.pipe(map((value) => value !== 'INVALID')));
+        this.shopUiService.addCommand(
+            this.clientForm.statusChanges.pipe(
+                map((value) => value !== 'INVALID'),
+                startWith(this.clientForm.valid),
+            ),
+        );
     }
 
     private setupForm(): FormGroup {

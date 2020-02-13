@@ -13,10 +13,14 @@ export class ShopCardComponent implements OnInit {
 
     public stepTotal = this.steps.length - 1;
 
+    public disableButton: boolean;
+
     constructor(private readonly shopUiService: ShopUiService) {}
 
     public ngOnInit(): void {
-        this.shopUiService.UiEventChange.subscribe(console.log);
+        this.shopUiService.UiEventChange.subscribe((value) => {
+            this.disableButton = !value;
+        });
     }
 
     public onClickNextStepHandle(): void {
