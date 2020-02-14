@@ -7,13 +7,20 @@ import { Invoice } from '../model/invoice.model';
 export class InvoiceStateService {
     private state: BehaviorSubject<Partial<Invoice>>;
 
+    private initialState: Invoice;
+
     constructor() {
-        const a = new Invoice();
-        this.state = new BehaviorSubject(a);
+        this.initialState = new Invoice();
+        this.state = new BehaviorSubject(this.initialState);
     }
 
     public getState(): Observable<Partial<Invoice>> {
-        return this.state.pipe(scan((acc, next) => ({ ...acc, ...next })));
+        return this.state.pipe(
+            scan((acc, next) => {
+                this.initialState = { ...acc, ...next };
+                return this.initialState;
+            }, this.initialState),
+        );
     }
 
     public getStateProperty<T extends keyof Invoice>(property?: T): Observable<Invoice[T]> {
