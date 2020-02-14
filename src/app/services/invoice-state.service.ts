@@ -1,26 +1,28 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map, scan } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { map, scan, shareReplay, startWith } from 'rxjs/operators';
 import { Invoice } from '../model/invoice.model';
 
 @Injectable({ providedIn: 'root' })
 export class InvoiceStateService {
-    private state: BehaviorSubject<Partial<Invoice>>;
+    private state: Subject<Partial<Invoice>>;
+
+    private stateObservable: Observable<Partial<Invoice>>;
 
     private initialState: Invoice;
 
     constructor() {
         this.initialState = new Invoice();
-        this.state = new BehaviorSubject(this.initialState);
+        this.state = new Subject();
+        this.stateObservable = this.state.pipe(
+            startWith(this.initialState),
+            scan((acc, next) => ({ ...acc, ...next }), this.initialState),
+            shareReplay(1),
+        );
     }
 
     public getState(): Observable<Partial<Invoice>> {
-        return this.state.pipe(
-            scan((acc, next) => {
-                this.initialState = { ...acc, ...next };
-                return this.initialState;
-            }, this.initialState),
-        );
+        return this.stateObservable;
     }
 
     public getStateProperty<T extends keyof Invoice>(property?: T): Observable<Invoice[T]> {
