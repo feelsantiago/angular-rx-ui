@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { SubSink } from 'subsink';
 import { ShopUiService } from '../services/shop-ui.service';
 
 @Component({
@@ -6,7 +7,7 @@ import { ShopUiService } from '../services/shop-ui.service';
     templateUrl: 'shop-card.component.html',
     styleUrls: ['shop-card.component.scss'],
 })
-export class ShopCardComponent implements OnInit {
+export class ShopCardComponent implements OnInit, OnDestroy {
     public stepSelected = 0;
 
     public steps = [false, false, false, false];
@@ -15,12 +16,24 @@ export class ShopCardComponent implements OnInit {
 
     public disableButton: boolean;
 
+    public busy = false;
+
+    private subscriptions = new SubSink();
+
     constructor(private readonly shopUiService: ShopUiService) {}
 
     public ngOnInit(): void {
-        this.shopUiService.UiEventChange.subscribe((value) => {
+        this.subscriptions.sink = this.shopUiService.UiEventChange.subscribe((value) => {
             this.disableButton = !value;
         });
+
+        this.subscriptions.sink = this.shopUiService.UiEventLoading.subscribe((value) => {
+            this.busy = value;
+        });
+    }
+
+    public ngOnDestroy(): void {
+        this.subscriptions.unsubscribe();
     }
 
     public onClickNextStepHandle(): void {

@@ -7,7 +7,7 @@
                 <div class="select">
                     <select>
                         <option>Select dropdown</option>
-                        <option>With options</option>
+                        <option *ngFor="let wood of woods">{{ wood }}</option>
                     </select>
                 </div>
             </div>
