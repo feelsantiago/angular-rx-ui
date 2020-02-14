@@ -40,9 +40,7 @@ export class StepClientComponent implements OnInit, OnDestroy {
             .pipe(first())
             .subscribe((state) => {
                 const { name, email } = state;
-                console.log('client', state);
-
-                if (name && email) this.clientForm.setValue({ name, email });
+                this.clientForm.setValue({ name, email });
             });
 
         this.subscriptions.sink = this.formService

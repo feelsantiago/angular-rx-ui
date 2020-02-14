@@ -6,8 +6,8 @@
             <div class="control">
                 <div class="select">
                     <select formControlName="neck">
-                        <option>Select neck wood</option>
-                        <option *ngFor="let wood of woods">{{ wood }}</option>
+                        <option ngValue="">Select neck wood</option>
+                        <option *ngFor="let wood of woods" [ngValue]="wood">{{ wood }}</option>
                     </select>
                     <p *ngIf="woodsForm.controls.neck.hasError('required')" class="help is-danger">
                         The neck is required
@@ -20,8 +20,8 @@
             <div class="control">
                 <div class="select">
                     <select formControlName="body">
-                        <option>Select body wood</option>
-                        <option *ngFor="let wood of woods">{{ wood }}</option>
+                        <option ngValue="">Select body wood</option>
+                        <option *ngFor="let wood of woods" [ngValue]="wood">{{ wood }}</option>
                     </select>
                     <p *ngIf="woodsForm.controls.body.hasError('required')" class="help is-danger">
                         The body is required
