@@ -1,14 +1,17 @@
 <div class="content">
     <h4>Select the body and neck wood type</h4>
-    <div class="form">
+    <form [formGroup]="woodsForm">
         <div class="field">
             <label class="label">Neck</label>
             <div class="control">
                 <div class="select">
-                    <select>
-                        <option>Select dropdown</option>
+                    <select formControlName="neck">
+                        <option>Select neck wood</option>
                         <option *ngFor="let wood of woods">{{ wood }}</option>
                     </select>
+                    <p *ngIf="woodsForm.controls.neck.hasError('required')" class="help is-danger">
+                        The neck is required
+                    </p>
                 </div>
             </div>
         </div>
@@ -16,12 +19,15 @@
             <label class="label">Body</label>
             <div class="control">
                 <div class="select">
-                    <select>
-                        <option>Select dropdown</option>
-                        <option>With options</option>
+                    <select formControlName="body">
+                        <option>Select body wood</option>
+                        <option *ngFor="let wood of woods">{{ wood }}</option>
                     </select>
+                    <p *ngIf="woodsForm.controls.body.hasError('required')" class="help is-danger">
+                        The body is required
+                    </p>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
 </div>

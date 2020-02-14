@@ -10,6 +10,6 @@ export class StepGearComponent implements OnInit {
     constructor(private readonly shopClient: ShopClient) {}
 
     public ngOnInit(): void {
-        this.shopClient.getWoodTypes().subscribe(console.log);
+        this.shopClient.getWoods().subscribe(console.log);
     }
 }

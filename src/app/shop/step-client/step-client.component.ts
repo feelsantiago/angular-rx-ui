@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { map, startWith, first, tap } from 'rxjs/operators';
 import { SubSink } from 'subsink';
+import { getFormStatus } from '../../utils/form.operators';
 import { FormService } from '../../services/form.service';
 import { InvoiceStateService } from '../../services/invoice-state.service';
 import { ShopUiService } from '../services/shop-ui.service';
@@ -30,12 +31,9 @@ export class StepClientComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this.clientForm = this.setupForm();
-        this.shopUiService.addCommand(
-            this.clientForm.statusChanges.pipe(
-                map((value) => value !== 'INVALID'),
-                startWith(this.clientForm.valid),
-            ),
-        );
+        const { valid } = this.clientForm;
+
+        this.shopUiService.addCommand(this.clientForm.statusChanges.pipe(getFormStatus(valid)));
 
         this.subscriptions.sink = this.invoiceState
             .getState()
@@ -47,7 +45,6 @@ export class StepClientComponent implements OnInit, OnDestroy {
 
         this.subscriptions.sink = this.formService
             .getOnFormValidEvent<FormModel>(this.clientForm)
-            .pipe(tap(console.log))
             .subscribe((values) => this.invoiceState.updateState(values));
     }
 

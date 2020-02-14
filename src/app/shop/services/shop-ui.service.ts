@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
-import { distinctUntilChanged } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ShopUiService {
@@ -9,7 +8,7 @@ export class ShopUiService {
     private uiLoadingObservable: Subject<boolean>;
 
     public get UiEventChange(): Observable<boolean> {
-        return this.uiObservable.pipe(distinctUntilChanged());
+        return this.uiObservable.asObservable();
     }
 
     public get UiEventLoading(): Observable<boolean> {
@@ -21,6 +20,7 @@ export class ShopUiService {
         this.uiLoadingObservable = new Subject();
     }
 
+    // TODO: unsubscribe commands
     public addCommand(command: Observable<boolean>): void {
         command.subscribe((value) => this.uiObservable.next(value));
     }
