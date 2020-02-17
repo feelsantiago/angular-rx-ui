@@ -1,31 +1,39 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { distinctUntilChanged } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class ShopUiService {
-    private uiObservable: BehaviorSubject<boolean>;
+    private uiSubject: BehaviorSubject<boolean>;
 
-    private uiLoadingObservable: Subject<boolean>;
+    private uiObservable: Observable<boolean>;
+
+    private uiLoadingSubject: Subject<boolean>;
+
+    private uiLoadingObservable: Observable<boolean>;
 
     public get UiEventChange(): Observable<boolean> {
-        return this.uiObservable.asObservable();
+        return this.uiObservable;
     }
 
     public get UiEventLoading(): Observable<boolean> {
-        return this.uiLoadingObservable.asObservable();
+        return this.uiLoadingObservable;
     }
 
     constructor() {
-        this.uiObservable = new BehaviorSubject(false);
-        this.uiLoadingObservable = new Subject();
+        this.uiSubject = new BehaviorSubject(false);
+        this.uiObservable = this.uiSubject.pipe(distinctUntilChanged());
+
+        this.uiLoadingSubject = new Subject();
+        this.uiLoadingObservable = this.uiLoadingSubject.pipe(distinctUntilChanged());
     }
 
     // TODO: unsubscribe commands
     public addCommand(command: Observable<boolean>): void {
-        command.subscribe((value) => this.uiObservable.next(value));
+        command.subscribe((value) => this.uiSubject.next(value));
     }
 
     public dispatchLoadingEvent(value: boolean): void {
-        this.uiLoadingObservable.next(value);
+        this.uiLoadingSubject.next(value);
     }
 }

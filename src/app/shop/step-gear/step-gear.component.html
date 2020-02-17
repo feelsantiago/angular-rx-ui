@@ -1,14 +1,17 @@
 <div class="content">
     <h4>Select the gear type</h4>
-    <div class="form">
+    <form [formGroup]="gearForm">
         <div class="field">
             <label class="label">Pickups</label>
             <div class="control">
                 <div class="select">
-                    <select>
-                        <option>Select dropdown</option>
-                        <option>With options</option>
+                    <select formControlName="pickups">
+                        <option ngValue="">Select pickups type</option>
+                        <option *ngFor="let pickup of pickups" [ngValue]="pickup">{{ pickup }}</option>
                     </select>
+                    <p *ngIf="gearForm.controls.pickups.hasError('required')" class="help is-danger">
+                        The neck is required
+                    </p>
                 </div>
             </div>
         </div>
@@ -16,12 +19,15 @@
             <label class="label">Quantity</label>
             <div class="control">
                 <div class="select">
-                    <select>
-                        <option>Select dropdown</option>
-                        <option>With options</option>
+                    <select formControlName="quantity">
+                        <option ngValue="">Select pickups quantity</option>
+                        <option *ngFor="let i of quantity" [ngValue]="i">{{ i }}</option>
                     </select>
+                    <p *ngIf="gearForm.controls.quantity.hasError('required')" class="help is-danger">
+                        The neck is required
+                    </p>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
 </div>

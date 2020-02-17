@@ -5,7 +5,7 @@ export class Invoice {
         public neck: string = '',
         public body: string = '',
         public pickups: string = '',
-        public quantity: string = '',
+        public quantity: number = 1,
         public color: string = '',
         public paint: string = '',
     ) {}
