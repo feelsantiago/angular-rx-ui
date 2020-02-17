@@ -29,7 +29,7 @@ export class ShopClient {
     public getQuantity(): Observable<number[]> {
         console.log('[GET] - Quantity');
         return of(this.quantity).pipe(
-            delay(2000),
+            delay(3000),
             tap(() => console.log('[GET] - Quantity - Status: Success')),
         );
     }
