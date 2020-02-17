@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SubSink } from 'subsink';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { tap, switchMap, first } from 'rxjs/operators';
-import { merge, forkJoin } from 'rxjs';
+import { forkJoin } from 'rxjs';
 import { getFormStatus } from '../../utils/form.operators';
 import { InvoiceStateService } from '../../services/invoice-state.service';
 import { FormService } from '../../services/form.service';
@@ -61,7 +61,6 @@ export class StepGearComponent implements OnInit, OnDestroy {
                 tap(() => this.shopUiService.dispatchLoadingEvent(false)),
             )
             .subscribe((state) => {
-                console.log(state);
                 const { pickups, quantity } = state;
                 this.gearForm.setValue({ pickups, quantity });
             });
