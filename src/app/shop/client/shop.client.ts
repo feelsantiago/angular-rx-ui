@@ -11,26 +11,22 @@ export class ShopClient {
     private readonly quantity = [1, 2, 3];
 
     public getWoods(): Observable<string[]> {
-        console.log('[GET] - Woods');
-        return of(this.woods).pipe(
-            delay(2000),
-            tap(() => console.log('[GET] - Woods - Status: Success')),
-        );
+        return this.get(this.woods, 'Pickups');
     }
 
     public getPickups(): Observable<string[]> {
-        console.log('[GET] - Pickups');
-        return of(this.pickups).pipe(
-            delay(2000),
-            tap(() => console.log('[GET] - Pickups - Status: Success')),
-        );
+        return this.get(this.pickups, 'Pickups');
     }
 
     public getQuantity(): Observable<number[]> {
-        console.log('[GET] - Quantity');
-        return of(this.quantity).pipe(
-            delay(3000),
-            tap(() => console.log('[GET] - Quantity - Status: Success')),
+        return this.get(this.quantity, 'Quantity', 3000);
+    }
+
+    private get<T>(values: T, type: string, requestTime = 2000): Observable<T> {
+        console.log(`[GET] - ${type}`);
+        return of(values).pipe(
+            delay(requestTime),
+            tap(() => console.log(`[GET] - ${type} - Status: Success`)),
         );
     }
 }
