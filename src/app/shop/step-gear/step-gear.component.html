@@ -10,7 +10,7 @@
                         <option *ngFor="let pickup of pickups" [ngValue]="pickup">{{ pickup }}</option>
                     </select>
                     <p *ngIf="gearForm.controls.pickups.hasError('required')" class="help is-danger">
-                        The neck is required
+                        The pickups are required
                     </p>
                 </div>
             </div>
@@ -24,7 +24,7 @@
                         <option *ngFor="let i of quantity" [ngValue]="i">{{ i }}</option>
                     </select>
                     <p *ngIf="gearForm.controls.quantity.hasError('required')" class="help is-danger">
-                        The neck is required
+                        The quantity is required
                     </p>
                 </div>
             </div>

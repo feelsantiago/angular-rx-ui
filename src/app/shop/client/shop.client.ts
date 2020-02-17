@@ -10,6 +10,10 @@ export class ShopClient {
 
     private readonly quantity = [1, 2, 3];
 
+    private readonly colors = ['Red', 'Blue', 'Black', 'Green'];
+
+    private readonly paints = ['Opaque', 'Acrylic', 'Solid'];
+
     public getWoods(): Observable<string[]> {
         return this.get(this.woods, 'Pickups');
     }
@@ -19,10 +23,18 @@ export class ShopClient {
     }
 
     public getQuantity(): Observable<number[]> {
-        return this.get(this.quantity, 'Quantity', 3000);
+        return this.get(this.quantity, 'Quantity', 1000);
     }
 
-    private get<T>(values: T, type: string, requestTime = 2000): Observable<T> {
+    public getColors(): Observable<string[]> {
+        return this.get(this.colors, 'Colors');
+    }
+
+    public getPaints(): Observable<string[]> {
+        return this.get(this.paints, 'Paints');
+    }
+
+    private get<T>(values: T, type: string, requestTime = 500): Observable<T> {
         console.log(`[GET] - ${type}`);
         return of(values).pipe(
             delay(requestTime),

@@ -1,27 +1,33 @@
 <div class="content">
     <h4>Select the paint type</h4>
-    <div class="form">
+    <form [formGroup]="paintForm">
         <div class="field">
             <label class="label">Color</label>
             <div class="control">
                 <div class="select">
-                    <select>
-                        <option>Select dropdown</option>
-                        <option>With options</option>
+                    <select formControlName="color">
+                        <option ngValue="">Select the color</option>
+                        <option *ngFor="let color of colors" [ngValue]="color">{{ color }}</option>
                     </select>
+                    <p *ngIf="paintForm.controls.color.hasError('required')" class="help is-danger">
+                        The color is required
+                    </p>
                 </div>
             </div>
         </div>
         <div class="field">
-            <label class="label">Style</label>
+            <label class="label">Paint</label>
             <div class="control">
                 <div class="select">
-                    <select>
-                        <option>Select dropdown</option>
-                        <option>With options</option>
+                    <select formControlName="paint">
+                        <option ngValue="">Select the paint style</option>
+                        <option *ngFor="let paint of paints" [ngValue]="paint">{{ paint }}</option>
                     </select>
+                    <p *ngIf="paintForm.controls.paint.hasError('required')" class="help is-danger">
+                        The paint is required
+                    </p>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
 </div>
