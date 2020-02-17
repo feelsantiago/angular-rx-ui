@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { first } from 'rxjs/operators';
 import { Invoice } from '../model/invoice.model';
 import { stateReducer } from '../utils/state.operators';
 
@@ -19,6 +20,10 @@ export class InvoiceStateService {
 
     public getState(): Observable<Partial<Invoice>> {
         return this.stateObservable;
+    }
+
+    public getStateOneTime(): Observable<Partial<Invoice>> {
+        return this.stateObservable.pipe(first());
     }
 
     public updateState(invoice: Partial<Invoice>): void {

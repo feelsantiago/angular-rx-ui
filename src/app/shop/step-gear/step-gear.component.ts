@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SubSink } from 'subsink';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { tap, switchMap, first } from 'rxjs/operators';
+import { tap, switchMap } from 'rxjs/operators';
 import { forkJoin } from 'rxjs';
 import { getFormStatus } from '../../utils/form.operators';
 import { InvoiceStateService } from '../../services/invoice-state.service';
@@ -57,7 +57,7 @@ export class StepGearComponent implements OnInit, OnDestroy {
 
         this.subscriptions.sink = forkJoin(pickupsObservable, quantityObservable)
             .pipe(
-                switchMap(() => this.invoiceState.getState().pipe(first())),
+                switchMap(() => this.invoiceState.getStateOneTime()),
                 tap(() => this.shopUiService.dispatchLoadingEvent(false)),
             )
             .subscribe((state) => {

@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SubSink } from 'subsink';
-import { tap, first, switchMap } from 'rxjs/operators';
+import { tap, switchMap } from 'rxjs/operators';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InvoiceStateService } from '../../services/invoice-state.service';
 import { getFormStatus } from '../../utils/form.operators';
@@ -46,7 +46,7 @@ export class StepWoodComponent implements OnInit, OnDestroy {
                 tap(() => this.shopUiService.dispatchLoadingEvent(false)),
                 switchMap((values) => {
                     this.woods = values;
-                    return this.invoiceState.getState().pipe(first());
+                    return this.invoiceState.getStateOneTime();
                 }),
             )
             .subscribe((state) => {
