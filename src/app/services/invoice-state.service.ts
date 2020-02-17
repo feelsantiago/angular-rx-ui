@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { Invoice } from '../model/invoice.model';
 import { stateReducer } from '../utils/state.operators';
