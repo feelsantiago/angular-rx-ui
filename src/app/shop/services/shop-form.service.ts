@@ -14,7 +14,7 @@ export class ShopFormService {
 
     private paintForm: FormGroup;
 
-    private initialled: boolean;
+    private initialized: boolean;
 
     private validateForm$: Observable<boolean>;
 
@@ -49,18 +49,18 @@ export class ShopFormService {
     }
 
     constructor(private readonly fb: FormBuilder) {
-        this.initialled = false;
+        this.initialized = false;
     }
 
     public init(): void {
-        if (this.initialled) return;
+        if (this.initialized) return;
 
         this.clientForm = this.setupClientForm();
         this.woodForm = this.setupWoodForm();
         this.gearForm = this.setupGearForm();
         this.paintForm = this.setupPaintForm();
 
-        this.initialled = true;
+        this.initialized = true;
     }
 
     public dispose(): void {
@@ -69,11 +69,11 @@ export class ShopFormService {
         this.gearForm = undefined;
         this.paintForm = undefined;
 
-        this.initialled = false;
+        this.initialized = false;
     }
 
     private initUiEvents(): void {
-        if (!this.initialled) {
+        if (!this.initialized) {
             this.init();
         }
 
