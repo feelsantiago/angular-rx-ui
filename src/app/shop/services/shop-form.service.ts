@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Observable, combineLatest } from 'rxjs';
 import { map, distinctUntilChanged } from 'rxjs/operators';
+import { getFormStatus } from '../../utils/form.operators';
 
 @Injectable({ providedIn: 'root' })
 export class ShopFormService {
@@ -15,7 +16,7 @@ export class ShopFormService {
 
     private initialled: boolean;
 
-    private validateForm$: Observable<boolean[]>;
+    private validateForm$: Observable<boolean>;
 
     public get clientFormGroup(): FormGroup {
         return this.clientForm;
@@ -33,7 +34,7 @@ export class ShopFormService {
         return this.paintForm;
     }
 
-    public get validateFormEvent$(): Observable<boolean[]> {
+    public get validateFormEvent$(): Observable<boolean> {
         if (!this.validateForm$) this.initUiEvents();
 
         return this.validateForm$;
@@ -73,7 +74,12 @@ export class ShopFormService {
         const { statusChanges: gear$ } = this.gearForm;
         const { statusChanges: paint$ } = this.paintForm;
 
-        this.validateForm$ = combineLatest(client$, wood$, gear$, paint$).pipe(
+        this.validateForm$ = combineLatest(
+            client$.pipe(getFormStatus(false)),
+            wood$.pipe(getFormStatus(false)),
+            gear$.pipe(getFormStatus(false)),
+            paint$.pipe(getFormStatus(false)),
+        ).pipe(
             map((result) => result.reduce((acc, next) => acc && next)),
             distinctUntilChanged(),
         );

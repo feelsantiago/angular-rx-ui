@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SubSink } from 'subsink';
 import { ShopUiService } from '../shop/services/shop-ui.service';
+import { ShopFormService } from '../shop/services/shop-form.service';
 
 @Component({
     selector: 'app-cart',
@@ -8,21 +9,22 @@ import { ShopUiService } from '../shop/services/shop-ui.service';
     styleUrls: ['cart.component.scss'],
 })
 export class CartComponent implements OnInit, OnDestroy {
-    public disableButton: boolean;
+    public disableButton = true;
 
     public busy = false;
 
     private readonly subscriptions = new SubSink();
 
-    constructor(private readonly shopUiService: ShopUiService) {}
+    constructor(private readonly shopUiService: ShopUiService, private readonly shopFormService: ShopFormService) {}
 
     public ngOnInit(): void {
-        this.subscriptions.sink = this.shopUiService.UiEventChange$.subscribe((value) => {
-            this.disableButton = !value;
-        });
-
         this.subscriptions.sink = this.shopUiService.UiEventLoading$.subscribe((value) => {
             this.busy = value;
+        });
+
+        this.shopFormService.validateFormEvent$.subscribe((value) => {
+            console.log(value);
+            this.disableButton = !value;
         });
     }
 

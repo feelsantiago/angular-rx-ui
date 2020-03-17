@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SubSink } from 'subsink';
 import { ShopUiService } from '../services/shop-ui.service';
+import { ShopFormService } from '../services/shop-form.service';
 
 @Component({
     selector: 'app-shop-card',
@@ -20,9 +21,11 @@ export class ShopCardComponent implements OnInit, OnDestroy {
 
     private subscriptions = new SubSink();
 
-    constructor(private readonly shopUiService: ShopUiService) {}
+    constructor(private readonly shopUiService: ShopUiService, private readonly shopFormService: ShopFormService) {}
 
     public ngOnInit(): void {
+        this.shopFormService.init();
+
         this.subscriptions.sink = this.shopUiService.UiEventChange$.subscribe((value) => {
             this.disableButton = !value;
         });
@@ -34,6 +37,7 @@ export class ShopCardComponent implements OnInit, OnDestroy {
 
     public ngOnDestroy(): void {
         this.subscriptions.unsubscribe();
+        this.shopFormService.dispose();
     }
 
     public onClickNextStepHandle(): void {
