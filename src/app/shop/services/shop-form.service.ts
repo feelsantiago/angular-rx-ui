@@ -69,6 +69,9 @@ export class ShopFormService {
         this.gearForm = undefined;
         this.paintForm = undefined;
 
+        this.validateForm$ = undefined;
+        this.validateStepForm$ = undefined;
+
         this.initialized = false;
     }
 
