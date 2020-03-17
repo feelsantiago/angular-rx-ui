@@ -11,7 +11,6 @@ import { ShopModule } from './shop/shop.module';
 @NgModule({
     declarations: [AppComponent, HeaderComponent, CartComponent],
     imports: [BrowserModule, AppRoutingModule, ShopModule, ReactiveFormsModule],
-    providers: [],
     bootstrap: [AppComponent],
 })
 export class AppModule {}

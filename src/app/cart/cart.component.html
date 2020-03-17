@@ -39,7 +39,12 @@
         </div>
     </div>
     <footer class="card-footer">
-        <a href="#" class="card-footer-item">
+        <a 
+            class="card-footer-item"
+            [class.disabled]="disableButton"
+            [attr.href]="disableButton ? null : '#'"
+            (click)="disableButton ? null : onCheckout()"
+        >
             Checkout
         </a>
     </footer>

@@ -8,6 +8,8 @@ export class ShopUiService {
 
     private ui$: Observable<boolean>;
 
+    private uiComplete$: Observable<boolean[]>;
+
     private uiLoadingSubject: Subject<boolean>;
 
     private uiLoading$: Observable<boolean>;

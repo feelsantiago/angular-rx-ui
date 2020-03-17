@@ -11,6 +11,5 @@ import { StepClientComponent } from './step-client/step-client.component';
     imports: [CommonModule, ReactiveFormsModule],
     exports: [ShopCardComponent],
     declarations: [ShopCardComponent, StepClientComponent, StepWoodComponent, StepGearComponent, StepPaintComponent],
-    providers: [],
 })
 export class ShopModule {}
