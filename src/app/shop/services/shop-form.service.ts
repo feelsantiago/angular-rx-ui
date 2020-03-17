@@ -61,6 +61,7 @@ export class ShopFormService {
         this.paintForm = this.setupPaintForm();
 
         this.initialized = true;
+        this.initUiEvents();
     }
 
     public dispose(): void {
