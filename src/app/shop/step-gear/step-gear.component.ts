@@ -8,6 +8,7 @@ import { InvoiceStateService } from '../../services/invoice-state.service';
 import { FormService } from '../../services/form.service';
 import { ShopUiService } from '../services/shop-ui.service';
 import { ShopClient } from '../client/shop.client';
+import { ShopFormService } from '../services/shop-form.service';
 
 interface FormModel {
     pickups: string;
@@ -33,11 +34,12 @@ export class StepGearComponent implements OnInit, OnDestroy {
         private readonly shopUiService: ShopUiService,
         private readonly invoiceState: InvoiceStateService,
         private readonly formService: FormService,
+        private readonly shopFormService: ShopFormService,
         private readonly fb: FormBuilder,
     ) {}
 
     public ngOnInit(): void {
-        this.gearForm = this.setupForm();
+        this.gearForm = this.shopFormService.gearFormGroup;
         const { valid } = this.gearForm;
 
         this.shopUiService.addCommand(this.gearForm.statusChanges.pipe(getFormStatus(valid)));
@@ -72,12 +74,5 @@ export class StepGearComponent implements OnInit, OnDestroy {
 
     public ngOnDestroy(): void {
         this.subscriptions.unsubscribe();
-    }
-
-    private setupForm(): FormGroup {
-        return this.fb.group({
-            pickups: ['', Validators.required],
-            quantity: ['', Validators.required],
-        });
     }
 }

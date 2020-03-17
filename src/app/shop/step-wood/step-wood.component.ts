@@ -7,6 +7,7 @@ import { getFormStatus } from '../../utils/form.operators';
 import { FormService } from '../../services/form.service';
 import { ShopClient } from '../client/shop.client';
 import { ShopUiService } from '../services/shop-ui.service';
+import { ShopFormService } from '../services/shop-form.service';
 
 interface FormModel {
     body: string;
@@ -30,11 +31,12 @@ export class StepWoodComponent implements OnInit, OnDestroy {
         private readonly shopUiService: ShopUiService,
         private readonly invoiceState: InvoiceStateService,
         private readonly formService: FormService,
+        private readonly shopFormService: ShopFormService,
         private readonly fb: FormBuilder,
     ) {}
 
     public ngOnInit(): void {
-        this.woodsForm = this.setupForm();
+        this.woodsForm = this.shopFormService.woodFormGroup;
         const { valid } = this.woodsForm;
 
         this.shopUiService.addCommand(this.woodsForm.statusChanges.pipe(getFormStatus(valid)));
@@ -61,12 +63,5 @@ export class StepWoodComponent implements OnInit, OnDestroy {
 
     public ngOnDestroy(): void {
         this.subscriptions.unsubscribe();
-    }
-
-    private setupForm(): FormGroup {
-        return this.fb.group({
-            body: ['', Validators.required],
-            neck: ['', Validators.required],
-        });
     }
 }

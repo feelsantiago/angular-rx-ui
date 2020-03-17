@@ -5,6 +5,7 @@ import { getFormStatus } from '../../utils/form.operators';
 import { FormService } from '../../services/form.service';
 import { InvoiceStateService } from '../../services/invoice-state.service';
 import { ShopUiService } from '../services/shop-ui.service';
+import { ShopFormService } from '../services/shop-form.service';
 
 interface FormModel {
     name: string;
@@ -25,11 +26,12 @@ export class StepClientComponent implements OnInit, OnDestroy {
         private readonly shopUiService: ShopUiService,
         private readonly invoiceState: InvoiceStateService,
         private readonly formService: FormService,
+        private readonly shopFormService: ShopFormService,
         private readonly fb: FormBuilder,
     ) {}
 
     public ngOnInit(): void {
-        this.clientForm = this.setupForm();
+        this.clientForm = this.shopFormService.clientFormGroup;
         const { valid } = this.clientForm;
 
         this.shopUiService.addCommand(this.clientForm.statusChanges.pipe(getFormStatus(valid)));
@@ -46,12 +48,5 @@ export class StepClientComponent implements OnInit, OnDestroy {
 
     public ngOnDestroy(): void {
         this.subscriptions.unsubscribe();
-    }
-
-    private setupForm(): FormGroup {
-        return this.fb.group({
-            name: ['', Validators.required],
-            email: ['', [Validators.required, Validators.email]],
-        });
     }
 }
