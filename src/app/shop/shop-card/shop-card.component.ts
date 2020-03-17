@@ -26,7 +26,7 @@ export class ShopCardComponent implements OnInit, OnDestroy {
     public ngOnInit(): void {
         this.shopFormService.init();
 
-        this.subscriptions.sink = this.shopUiService.UiEventChange$.subscribe((value) => {
+        this.subscriptions.sink = this.shopFormService.validateStepFormEvent$.subscribe((value) => {
             this.disableButton = !value;
         });
 

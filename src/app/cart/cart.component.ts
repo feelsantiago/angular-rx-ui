@@ -22,8 +22,7 @@ export class CartComponent implements OnInit, OnDestroy {
             this.busy = value;
         });
 
-        this.shopFormService.validateFormEvent$.subscribe((value) => {
-            console.log(value);
+        this.subscriptions.sink = this.shopFormService.validateFormEvent$.subscribe((value) => {
             this.disableButton = !value;
         });
     }

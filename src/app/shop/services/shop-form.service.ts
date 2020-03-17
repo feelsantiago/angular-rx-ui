@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { Observable, combineLatest } from 'rxjs';
+import { Observable, combineLatest, merge } from 'rxjs';
 import { map, distinctUntilChanged } from 'rxjs/operators';
 import { getFormStatus } from '../../utils/form.operators';
 
@@ -17,6 +17,8 @@ export class ShopFormService {
     private initialled: boolean;
 
     private validateForm$: Observable<boolean>;
+
+    private validateStepForm$: Observable<boolean>;
 
     public get clientFormGroup(): FormGroup {
         return this.clientForm;
@@ -38,6 +40,12 @@ export class ShopFormService {
         if (!this.validateForm$) this.initUiEvents();
 
         return this.validateForm$;
+    }
+
+    public get validateStepFormEvent$(): Observable<boolean> {
+        if (!this.validateStepForm$) this.initUiEvents();
+
+        return this.validateStepForm$;
     }
 
     constructor(private readonly fb: FormBuilder) {
@@ -83,6 +91,13 @@ export class ShopFormService {
             map((result) => result.reduce((acc, next) => acc && next)),
             distinctUntilChanged(),
         );
+
+        this.validateStepForm$ = merge(
+            client$.pipe(getFormStatus(false)),
+            wood$.pipe(getFormStatus(false)),
+            gear$.pipe(getFormStatus(false)),
+            paint$.pipe(getFormStatus(false)),
+        ).pipe(distinctUntilChanged());
     }
 
     private setupClientForm(): FormGroup {

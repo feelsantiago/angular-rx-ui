@@ -1,9 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { SubSink } from 'subsink';
 import { tap, switchMap } from 'rxjs/operators';
 import { forkJoin } from 'rxjs';
-import { getFormStatus } from '../../utils/form.operators';
 import { InvoiceStateService } from '../../services/invoice-state.service';
 import { FormService } from '../../services/form.service';
 import { ShopUiService } from '../services/shop-ui.service';
@@ -35,14 +34,10 @@ export class StepPaintComponent implements OnInit, OnDestroy {
         private readonly invoiceState: InvoiceStateService,
         private readonly formService: FormService,
         private readonly shopFormService: ShopFormService,
-        private readonly fb: FormBuilder,
     ) {}
 
     public ngOnInit(): void {
         this.paintForm = this.shopFormService.paintFormGroup;
-        const { valid } = this.paintForm;
-
-        this.shopUiService.addCommand(this.paintForm.statusChanges.pipe(getFormStatus(valid)));
         this.shopUiService.dispatchLoadingEvent(true);
 
         const colorsObservable = this.shopClient.getColors().pipe(

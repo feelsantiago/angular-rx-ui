@@ -1,10 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { SubSink } from 'subsink';
-import { getFormStatus } from '../../utils/form.operators';
 import { FormService } from '../../services/form.service';
 import { InvoiceStateService } from '../../services/invoice-state.service';
-import { ShopUiService } from '../services/shop-ui.service';
 import { ShopFormService } from '../services/shop-form.service';
 
 interface FormModel {
@@ -23,18 +21,13 @@ export class StepClientComponent implements OnInit, OnDestroy {
     public subscriptions = new SubSink();
 
     constructor(
-        private readonly shopUiService: ShopUiService,
         private readonly invoiceState: InvoiceStateService,
         private readonly formService: FormService,
         private readonly shopFormService: ShopFormService,
-        private readonly fb: FormBuilder,
     ) {}
 
     public ngOnInit(): void {
         this.clientForm = this.shopFormService.clientFormGroup;
-        const { valid } = this.clientForm;
-
-        this.shopUiService.addCommand(this.clientForm.statusChanges.pipe(getFormStatus(valid)));
 
         this.subscriptions.sink = this.invoiceState.getStateOneTime().subscribe((state) => {
             const { name, email } = state;

@@ -1,9 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SubSink } from 'subsink';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { tap, switchMap } from 'rxjs/operators';
 import { forkJoin } from 'rxjs';
-import { getFormStatus } from '../../utils/form.operators';
 import { InvoiceStateService } from '../../services/invoice-state.service';
 import { FormService } from '../../services/form.service';
 import { ShopUiService } from '../services/shop-ui.service';
@@ -35,14 +34,10 @@ export class StepGearComponent implements OnInit, OnDestroy {
         private readonly invoiceState: InvoiceStateService,
         private readonly formService: FormService,
         private readonly shopFormService: ShopFormService,
-        private readonly fb: FormBuilder,
     ) {}
 
     public ngOnInit(): void {
         this.gearForm = this.shopFormService.gearFormGroup;
-        const { valid } = this.gearForm;
-
-        this.shopUiService.addCommand(this.gearForm.statusChanges.pipe(getFormStatus(valid)));
         this.shopUiService.dispatchLoadingEvent(true);
 
         const pickupsObservable = this.shopClient.getPickups().pipe(
