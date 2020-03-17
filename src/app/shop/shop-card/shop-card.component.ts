@@ -23,11 +23,11 @@ export class ShopCardComponent implements OnInit, OnDestroy {
     constructor(private readonly shopUiService: ShopUiService) {}
 
     public ngOnInit(): void {
-        this.subscriptions.sink = this.shopUiService.UiEventChange.subscribe((value) => {
+        this.subscriptions.sink = this.shopUiService.UiEventChange$.subscribe((value) => {
             this.disableButton = !value;
         });
 
-        this.subscriptions.sink = this.shopUiService.UiEventLoading.subscribe((value) => {
+        this.subscriptions.sink = this.shopUiService.UiEventLoading$.subscribe((value) => {
             this.busy = value;
         });
     }

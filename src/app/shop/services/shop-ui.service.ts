@@ -6,31 +6,31 @@ import { distinctUntilChanged } from 'rxjs/operators';
 export class ShopUiService {
     private uiSubject: BehaviorSubject<boolean>;
 
-    private uiObservable: Observable<boolean>;
+    private ui$: Observable<boolean>;
 
     private uiLoadingSubject: Subject<boolean>;
 
-    private uiLoadingObservable: Observable<boolean>;
+    private uiLoading$: Observable<boolean>;
 
-    public get UiEventChange(): Observable<boolean> {
-        return this.uiObservable;
+    public get UiEventChange$(): Observable<boolean> {
+        return this.ui$;
     }
 
-    public get UiEventLoading(): Observable<boolean> {
-        return this.uiLoadingObservable;
+    public get UiEventLoading$(): Observable<boolean> {
+        return this.uiLoading$;
     }
 
     constructor() {
         this.uiSubject = new BehaviorSubject(false);
-        this.uiObservable = this.uiSubject.pipe(distinctUntilChanged());
+        this.ui$ = this.uiSubject.pipe(distinctUntilChanged());
 
         this.uiLoadingSubject = new Subject();
-        this.uiLoadingObservable = this.uiLoadingSubject.pipe(distinctUntilChanged());
+        this.uiLoading$ = this.uiLoadingSubject.pipe(distinctUntilChanged());
     }
 
     // TODO: unsubscribe commands
-    public addCommand(command: Observable<boolean>): void {
-        command.subscribe((value) => this.uiSubject.next(value));
+    public addCommand(command$: Observable<boolean>): void {
+        command$.subscribe((value) => this.uiSubject.next(value));
     }
 
     public dispatchLoadingEvent(value: boolean): void {

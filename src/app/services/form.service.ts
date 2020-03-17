@@ -6,12 +6,12 @@ import { Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class FormService {
     public getOnFormValidEvent<T>(form: FormGroup): Observable<T> {
-        const validFormObservable = form.statusChanges.pipe(filter((value) => value === 'VALID'));
-        const submitFormObservable = form.valueChanges.pipe(
-            debounce(() => validFormObservable),
+        const validForm$ = form.statusChanges.pipe(filter((value) => value === 'VALID'));
+        const submitForm$ = form.valueChanges.pipe(
+            debounce(() => validForm$),
             debounceTime(500),
         );
 
-        return submitFormObservable;
+        return submitForm$;
     }
 }
